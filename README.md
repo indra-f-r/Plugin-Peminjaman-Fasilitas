@@ -279,9 +279,11 @@ slims/plugins/
 slims/plugins/peminjaman_fasilitas
 ```
 
-4. Aktifkan plugin melalui **Plugin Manager SLiMS**
+4. Buat GMD Baru = Fasilitas Perpustakaan
 
-5. Menu akan muncul pada:
+5. Aktifkan plugin melalui **Plugin Manager SLiMS**
+
+6. Menu akan muncul pada:
 
 ```
 Sirkulasi → Peminjaman Fasilitas
