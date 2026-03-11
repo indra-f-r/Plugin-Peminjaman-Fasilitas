@@ -23,6 +23,7 @@ Plugin dirancang **sederhana, ringan, dan mengikuti struktur SLiMS** sehingga mu
 # ✨ Fitur Utama
 
 ## 📋 Form Permohonan Fasilitas
+<img width="1076" height="1779" alt="image" src="https://github.com/user-attachments/assets/e82f36cd-9a28-44d0-9038-95095e164930" />
 
 Form peminjaman yang dapat diakses oleh pengguna melalui browser.
 
@@ -141,12 +142,15 @@ Permohonan akan masuk ke halaman admin:
 ```
 Sirkulasi → Peminjaman Fasilitas
 ```
+<img width="1079" height="517" alt="image" src="https://github.com/user-attachments/assets/80058085-7533-4193-bc9d-2f655159745f" />
 
 Petugas dapat:
 
 - Approve
 - Reject
 - Print Surat
+<img width="1078" height="729" alt="image" src="https://github.com/user-attachments/assets/017e3b9d-e248-4ae5-95ce-c36c797bcb5f" />
+
 - Hapus permohonan
 
 Status permohonan:
