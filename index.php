@@ -112,6 +112,10 @@ else echo '-';
 
 <td>
 
+<td>
+
+<?php if($row['status']=='pending'){ ?>
+
 <form method="post" action="<?= $_SERVER['REQUEST_URI']; ?>" style="display:inline">
 <input type="hidden" name="approve" value="<?= $row['loan_id'] ?>">
 <button class="btn btn-success btn-sm">Approve</button>
@@ -122,15 +126,26 @@ else echo '-';
 <button class="btn btn-danger btn-sm">Reject</button>
 </form>
 
+<?php } else { ?>
+
+<button class="btn btn-success btn-sm" disabled>Approve</button>
+<button class="btn btn-danger btn-sm" disabled>Reject</button>
+
+<?php } ?>
+
+
 <?php if($row['status']!='pending'){ ?>
 
-<a href="../plugins/peminjaman_fasilitas/print.php?id=<?= $row['loan_id'] ?>" target="_blank" class="btn btn-primary btn-sm">Print</a>
+<a href="../plugins/peminjaman_fasilitas/print.php?id=<?= $row['loan_id'] ?>" target="_blank" class="btn btn-primary btn-sm">
+Print
+</a>
 
 <?php } else { ?>
 
 <button class="btn btn-secondary btn-sm" disabled>Print</button>
 
 <?php } ?>
+
 
 <form method="post" action="<?= $_SERVER['REQUEST_URI']; ?>" style="display:inline" onsubmit="return confirm('Hapus data ini?')">
 <input type="hidden" name="delete" value="<?= $row['loan_id'] ?>">
