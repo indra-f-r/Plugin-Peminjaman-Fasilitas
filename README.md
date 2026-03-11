@@ -322,6 +322,193 @@ Sehingga fasilitas dapat dikelola seperti koleksi perpustakaan biasa.
 
 ---
 
+# 🔄 Alur Peminjaman Fasilitas
+
+Berikut alur proses peminjaman fasilitas menggunakan plugin ini.
+
+---
+
+## 1️⃣ Pengguna Mengisi Form
+
+Pengguna membuka halaman:
+
+```
+/plugins/peminjaman_fasilitas/form.php
+```
+
+Kemudian mengisi data:
+
+- Nama
+- Kelas
+- Nomor Kontak
+- Penanggung Jawab
+- Nama Kegiatan
+- Fasilitas yang dipinjam
+- Lokasi kegiatan
+- Waktu peminjaman
+- Waktu selesai
+
+Fasilitas dipilih melalui **pencarian otomatis dari koleksi SLiMS**.
+
+---
+
+## 2️⃣ Permohonan Tersimpan
+
+Setelah form dikirim:
+
+- data disimpan pada tabel
+
+```
+facility_loan
+```
+
+Status awal:
+
+```
+pending
+```
+
+Artinya permohonan **belum disetujui**.
+
+---
+
+## 3️⃣ Petugas Memeriksa Permohonan
+
+Petugas membuka halaman:
+
+```
+Sirkulasi → Peminjaman Fasilitas
+```
+
+Di halaman ini petugas dapat melihat:
+
+- nama peminjam
+- kegiatan
+- fasilitas yang diminta
+- waktu peminjaman
+- lokasi kegiatan
+
+---
+
+## 4️⃣ Petugas Memberikan Keputusan
+
+Petugas dapat memilih:
+
+### Approve
+
+Jika permohonan disetujui:
+
+- status berubah menjadi
+
+```
+approved
+```
+
+- nomor surat dibuat otomatis
+- waktu persetujuan dicatat pada kolom
+
+```
+approved_at
+```
+
+---
+
+### Reject
+
+Jika permohonan ditolak:
+
+- status berubah menjadi
+
+```
+rejected
+```
+
+- waktu penolakan dicatat pada kolom
+
+```
+rejected_at
+```
+
+---
+
+## 5️⃣ Cetak Surat Peminjaman
+
+Jika permohonan **approved**, petugas dapat menekan tombol:
+
+```
+Print
+```
+
+Sistem akan menghasilkan **Surat Izin Peminjaman Fasilitas**.
+
+Isi surat:
+
+- nomor surat
+- identitas peminjam
+- kegiatan
+- lokasi kegiatan
+- daftar fasilitas
+- waktu peminjaman
+- waktu persetujuan
+
+---
+
+## 6️⃣ Pelaksanaan Kegiatan
+
+Fasilitas digunakan sesuai jadwal yang tercantum dalam surat.
+
+Surat yang dicetak dapat digunakan sebagai **dokumen resmi peminjaman**.
+
+---
+
+## 7️⃣ Pengembalian Fasilitas
+
+Pada bagian bawah surat tersedia area:
+
+```
+Catatan Pengembalian
+```
+
+Petugas dapat mencatat:
+
+- tanggal pengembalian
+- kondisi barang
+- catatan tambahan
+- tanda tangan penerima
+
+---
+
+# 📊 Diagram Alur Sistem
+
+```
+User mengisi form
+        ↓
+Data masuk ke database
+        ↓
+Status = pending
+        ↓
+Petugas memeriksa
+        ↓
+Approve / Reject
+        ↓
+Jika approve → cetak surat
+        ↓
+Fasilitas digunakan
+        ↓
+Pengembalian dicatat
+```
+
+---
+
+# 🎯 Tujuan Sistem
+
+Plugin ini dibuat untuk membantu perpustakaan:
+
+- mendokumentasikan peminjaman fasilitas
+- menghindari konflik penggunaan fasilitas
+- menyediakan surat izin resmi
+- mencatat penggunaan fasilitas perpustakaan
+
 # 🚀 Pengembangan Selanjutnya
 
 Beberapa fitur yang bisa ditambahkan:
