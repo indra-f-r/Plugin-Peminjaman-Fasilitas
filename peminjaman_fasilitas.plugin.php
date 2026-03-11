@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Peminjaman Fasilitas
- * Plugin URI: https://github.com/indra-f-r
+ * Plugin URI: https://github.com/indra-f-r/Plugin-Peminjaman-Fasilitas
  * Description: Plugin untuk Peminjaman Fasilitas Perpustakaan
  * Version: 1.1.0
  * Author: Indra Febriana Rulliawan
