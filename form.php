@@ -10,8 +10,17 @@ $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
 date_default_timezone_set('Asia/Jakarta');
-global $dbs;
-global $dbs;
+
+global $sysconf;
+
+$library_name = $sysconf['library_name'];
+$library_subname = $sysconf['library_subname'];
+
+$logo = $sysconf['library_logo'];
+
+if(!$logo){
+$logo = "default/logo.png";
+}
 
 if(isset($_POST['submit'])){
 
@@ -282,6 +291,36 @@ font-size:14px;
 color:#666;
 margin-top:5px;
 }
+
+/*header */
+.library-header{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:18px;
+margin-bottom:25px;
+}
+
+.library-logo{
+height:70px;
+width:auto;
+}
+
+.library-text{
+text-align:left;
+}
+
+.library-name{
+font-size:26px;
+font-weight:bold;
+letter-spacing:1px;
+}
+
+.library-subname{
+font-size:16px;
+color:#666;
+}
+
 </style>
 
 </head>
@@ -289,6 +328,24 @@ margin-top:5px;
 <body>
 
 <div class="form-box">
+
+<div class="library-header">
+
+<img src="../../images/<?php echo $logo; ?>" class="library-logo">
+
+<div class="library-text">
+
+<div class="library-name">
+<?php echo $library_name; ?>
+</div>
+
+<div class="library-subname">
+<?php echo $library_subname; ?>
+</div>
+
+</div>
+
+</div>
 
 <h2>Peminjaman Fasilitas Perpustakaan</h2>
 
