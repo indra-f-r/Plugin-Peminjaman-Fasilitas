@@ -4,6 +4,7 @@ define('INDEX_AUTH',1);
 require '../../sysconfig.inc.php';
 
 date_default_timezone_set('Asia/Jakarta');
+setlocale(LC_TIME, 'id_ID', 'id_ID.UTF-8');
 
 global $dbs;
 
@@ -13,6 +14,10 @@ AMBIL DATA PEMINJAMAN
 
 $id=(int)$_GET['id'];
 
+$petugas = isset($_GET['petugas']) ? htmlspecialchars($_GET['petugas']) : '';
+
+$tanggal_cetak = date('d F Y');
+
 $query=$dbs->query("
 SELECT *
 FROM facility_loan
@@ -20,6 +25,40 @@ WHERE loan_id=$id
 ");
 
 $data=$query->fetch_assoc();
+
+/*tambah fungsi tanggal*/
+
+function formatTanggal($datetime){
+
+$timestamp = strtotime($datetime);
+
+$bulan = [
+1=>'Januari','Februari','Maret','April','Mei','Juni',
+'Juli','Agustus','September','Oktober','November','Desember'
+];
+
+$tgl = date('j',$timestamp);
+$bln = $bulan[(int)date('n',$timestamp)];
+$thn = date('Y',$timestamp);
+$jam = date('H:i',$timestamp);
+
+return "$tgl $bln $thn, Jam $jam";
+}
+
+$waktu_persetujuan = '-';
+
+if($data['approved_at']){
+$waktu_persetujuan = formatTanggal($data['approved_at']);
+}
+elseif($data['rejected_at']){
+$waktu_persetujuan = formatTanggal($data['rejected_at']);
+}
+
+$waktu_pinjam = formatTanggal($data['start_datetime']);
+$waktu_selesai = formatTanggal($data['end_datetime']);
+
+$tanggal_cetak = formatTanggal(date('Y-m-d H:i:s'));
+
 
 /* ============================
 GENERATE NOMOR SURAT
@@ -172,33 +211,19 @@ Yang bertanda tangan di bawah ini memberikan izin penggunaan fasilitas perpustak
 <tr>
 <td>Waktu Persetujuan</td>
 <td>:</td>
-<td>
-<?php
-
-if($data['approved_at']){
-echo $data['approved_at'];
-}
-elseif($data['rejected_at']){
-echo $data['rejected_at'];
-}
-else{
-echo '-';
-}
-
-?>
-</td>
+<td><?= $waktu_persetujuan ?></td>
 </tr>
 
 <tr>
 <td>Waktu Pinjam</td>
 <td>:</td>
-<td><?= $data['start_datetime'] ?></td>
+<td><?= $waktu_pinjam ?></td>
 </tr>
 
 <tr>
 <td>Waktu Selesai</td>
 <td>:</td>
-<td><?= $data['end_datetime'] ?></td>
+<td><?= $waktu_selesai ?></td>
 </tr>
 
 </table>
@@ -206,20 +231,23 @@ echo '-';
 <div class="ttd">
 
 <div>
+<br>    
 Peminjam
 <br><br><br><br>
-( ____________________ )
+( <?= $data['borrower_name'] ?> )
 </div>
 
-<div>
-Petugas Perpustakaan
+<br>
+Petugas,
 <br><br><br><br>
-( ____________________ )
+( <?= $petugas ?> )
 </div>
 
 </div>
 
-
+<div style="margin-top:10px;font-size:13px;">
+Di cetak pada : <?= $tanggal_cetak ?>
+</div>
 <div class="kembali">
 
 <b>Catatan Pengembalian</b>
@@ -231,7 +259,7 @@ Petugas Perpustakaan
 <tr>
 <td width="200">Tanggal Pengembalian</td>
 <td width="10">:</td>
-<td>....................................</td>
+<td>___________________________________________________________</td>
 </tr>
 
 <tr>
@@ -251,7 +279,7 @@ Petugas Perpustakaan
 <tr>
 <td>Catatan</td>
 <td>:</td>
-<td>......................................................................................</td>
+<td>___________________________________________________________</td>
 </tr>
 
 </table>
