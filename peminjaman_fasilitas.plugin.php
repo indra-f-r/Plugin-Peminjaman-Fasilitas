@@ -95,3 +95,13 @@ $plugin->registerMenu(
 'Peminjaman Fasilitas',
 __DIR__.'/index.php'
 );
+
+/* =====================================
+ROUTING OPAC
+===================================== */
+
+if (isset($_GET['p']) && $_GET['p'] == 'peminjaman') {
+    if(!defined('INDEX_AUTH')) define('INDEX_AUTH',1);
+    require __DIR__.'/form.php';
+    exit;
+}
