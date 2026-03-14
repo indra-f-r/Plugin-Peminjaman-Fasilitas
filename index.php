@@ -118,9 +118,7 @@ margin-top:2px;
 
 <div class="no-print" style="margin-bottom:15px">
 
-<form method="get" style="display:flex;gap:10px;align-items:center">
-
-<input type="hidden" name="mod" value="circulation">
+<form method="get" action="<?= $_SERVER['REQUEST_URI']; ?>" style="display:flex;gap:10px;align-items:center">
 
 <label>Dari</label>
 <input type="date" name="start" value="<?= $start ?>">
@@ -129,8 +127,6 @@ margin-top:2px;
 <input type="date" name="end" value="<?= $end ?>">
 
 <button class="btn btn-primary btn-sm">Filter</button>
-
-<a href="?mod=circulation" class="btn btn-secondary btn-sm">Reset</a>
 
 <button type="button" onclick="printLaporan()" class="btn btn-success btn-sm">
 Print
@@ -223,7 +219,7 @@ else{echo '-';}
 
 <?php } ?>
 
-<?php if($row['status']!='pending'){ ?>
+<?php if($row['status']=='approved'){ ?>
 
 <button type="button" class="btn btn-primary btn-sm" onclick="printSurat(<?= $row['loan_id'] ?>)">Print</button>
 
@@ -251,6 +247,10 @@ else{echo '-';}
 </div>
 
 <script>
+function printLaporan(){
+window.print();
+}
+
 function printSurat(id){
 let petugas=prompt("Masukkan Nama Petugas:");
 if(petugas==null||petugas.trim()==""){alert("Nama petugas wajib diisi");return;}
