@@ -1,7 +1,7 @@
 <?php
 session_start();
-define('INDEX_AUTH',1);
-require '../../sysconfig.inc.php';
+if(!defined('INDEX_AUTH')) define('INDEX_AUTH',1);
+if(!isset($dbs)) require SB.'sysconfig.inc.php';
 if(empty($_SESSION['csrf_token'])){$_SESSION['csrf_token']=bin2hex(random_bytes(32));}
 date_default_timezone_set('Asia/Jakarta');
 global $sysconf;
@@ -87,7 +87,7 @@ button:hover{background:#0d47a1;}
 
 <div id="formAlert" class="alert-box" style="display:none;">Semua field wajib diisi</div>
 
-<form method="post" action="submit.php" id="loanForm">
+<form method="post" action="plugins/peminjaman_fasilitas/submit.php" id="loanForm">
 <input type="hidden" name="csrf_token" value="<?=$_SESSION['csrf_token']?>">
 
 <label>Nama</label>
@@ -103,7 +103,7 @@ button:hover{background:#0d47a1;}
 <small class="help-text">Nomor yang bisa dihubungi (WhatsApp)</small>
 
 <label>Penanggung Jawab (Guru / Pembina / Pimpinan / Ketua)</label>
-<input type="text" id="searchSupervisor" placeholder="Ketik nama anggota">
+<input type="text" id="searchSupervisor" placeholder="Ketik nama">
 <div id="supervisorResult"></div>
 <input type="hidden" name="supervisor" id="supervisorInput">
 <small class="help-text">Guru / Pembina / Pimpinan / Ketua yang mengetahui kegiatan ini</small>
@@ -149,14 +149,14 @@ button:hover{background:#0d47a1;}
 
 <script>
 let items=[];
-document.getElementById("searchItem").addEventListener("keyup",function(){let q=this.value;if(q.length<2){document.getElementById("searchResult").innerHTML="";return;}fetch("search_item.php?q="+q).then(r=>r.text()).then(data=>{document.getElementById("searchResult").innerHTML=data;});});
+document.getElementById("searchItem").addEventListener("keyup",function(){let q=this.value;if(q.length<2){document.getElementById("searchResult").innerHTML="";return;}fetch("/plugins/peminjaman_fasilitas/search_item.php?q="+q).then(r=>r.text()).then(data=>{document.getElementById("searchResult").innerHTML=data;});});
 document.addEventListener("click",function(e){let item=e.target.closest(".item-result");if(item){let title=item.dataset.title;let code=item.dataset.code;let detail=item.dataset.detail;let text=title+" ("+code+"), "+detail;if(!items.includes(text)){items.push(text);renderItems();}document.getElementById("searchResult").innerHTML="";document.getElementById("searchItem").value="";}});
 function renderItems(){let html="";items.forEach((item,index)=>{html+=`<div class="selected-item"><span>${item}</span><button type="button" class="remove-btn" onclick="removeItem(${index})">&times;</button></div>`;});document.getElementById("selectedItems").innerHTML=html;document.getElementById("itemsInput").value=items.join(";");}
 function removeItem(index){items.splice(index,1);renderItems();}
 function generateMath(){let a=Math.floor(Math.random()*10)+1;let b=Math.floor(Math.random()*10)+1;document.getElementById("mathQuestion").innerHTML="Berapa hasil: "+a+" + "+b+" ?";document.getElementById("mathCorrect").value=a+b;}
 generateMath();
 
-document.getElementById("searchSupervisor").addEventListener("keyup",function(){let q=this.value;if(q.length<2){document.getElementById("supervisorResult").innerHTML="";return;}fetch("search_member.php?q="+q).then(r=>r.text()).then(data=>{document.getElementById("supervisorResult").innerHTML=data;});});
+document.getElementById("searchSupervisor").addEventListener("keyup",function(){let q=this.value;if(q.length<2){document.getElementById("supervisorResult").innerHTML="";return;}fetch("/plugins/peminjaman_fasilitas/search_member.php?q="+q).then(r=>r.text()).then(data=>{document.getElementById("supervisorResult").innerHTML=data;});});
 document.addEventListener("click",function(e){let item=e.target.closest(".supervisor-item");if(item){let name=item.dataset.name;let id=item.dataset.id;document.getElementById("searchSupervisor").value=name;document.getElementById("supervisorInput").value=id;document.getElementById("supervisorResult").innerHTML="";}});
 
 let countdown=5;
